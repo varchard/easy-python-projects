@@ -1,10 +1,12 @@
 # first program
 
+
 row1 = [' ',' ',' ']
 row2 = [' ',' ',' ']
 row3 = [' ',' ',' ']
 
 def display():
+    print('\n'*50)
     print(row1)
     print(row2)
     print(row3)
@@ -14,6 +16,7 @@ def make_ur_mark():
     global row2
     global row3
 
+    global player
     player = ' '
     while player not in ['X','O']:
         player = input("Are you X or O?").upper()
@@ -53,7 +56,7 @@ def make_ur_mark():
 def ask_keep_playing():
     ask_again = True
     while ask_again == True:
-        yes_no = input('yes or no, you would like to continue playing?')
+        yes_no = input('yes or no, you would like to keep playing?')
         if yes_no.lower() == 'yes':
             ask_again = False
             return True
@@ -63,9 +66,69 @@ def ask_keep_playing():
         else:
             print("I didnt understand that")
 
+def check_for_win():
+
+    if (row1[0] == row1[1] == row1[2] == 'X'):
+        print("X is the winner")
+        return False
+    elif (row2[1] == row2[2] == row2[0] == 'X'):
+        print("X is the winner")
+        return False
+    elif (row3[1] == row3[2] == row3[0] == 'X'):
+        print("X is the winner")
+        return False
+    elif (row1[0] == row2[0] == row3[0] == 'X'):
+        print("X is the winner")
+        return False
+    elif (row1[1] == row2[1] == row3[1] == 'X'):
+        print("X is the winner")
+        return False
+    elif (row1[2] == row2[2] == row3[2] == 'X'):
+        print("X is the winner")
+        return False
+    elif (row1[0] == row2[1] == row3[2]  == 'X'):
+        print("X is the winner")
+        return False
+    elif (row1[2] == row2[1] == row3[0]  == 'X'):
+        print("X is the winner")
+        return False
+    elif (row1[0] == row1[1] == row1[2] == 'O'):
+        print("O is the winner")
+        return False
+    elif (row2[1] == row2[2] == row2[0] == 'O'):
+        print("O is the winner")
+        return False
+    elif (row3[1] == row3[2] == row3[0] == 'O'):
+        print("O is the winner")
+        return False
+    elif (row1[0] == row2[0] == row3[0] == 'O'):
+        print("O is the winner")
+        return False
+    elif (row1[1] == row2[1] == row3[1] == 'O'):
+        print("O is the winner")
+        return False
+    elif (row1[2] == row2[2] == row3[2] == 'O'):
+        print("O is the winner")
+        return False
+    elif (row1[0] == row2[1] == row3[2]  == 'O'):
+        print("O is the winner")
+        return False
+    elif (row1[2] == row2[1] == row3[0]  == 'O'):
+        print("O is the winner")
+        return False
+    elif ' ' not in row1 and ' ' not in row2 and ' ' not in row3:
+        print("Stalemate!")
+        return False
+    else:
+         return True
+
 cont_play = True
+want_to_play = True
 while cont_play == True:
-    
+    want_to_play = ask_keep_playing()
+    if want_to_play == False:
+        break
     make_ur_mark()
     display()
-    cont_play = ask_keep_playing()
+    cont_play = check_for_win()
+    
