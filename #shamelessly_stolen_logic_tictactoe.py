@@ -54,7 +54,14 @@ def chose_ur_place():
 
 def check_for_win(player):
     global game_on
-    if (the_board[0] == the_board[1] == the_board[2] == player) or (the_board[3] == the_board[4] == the_board[5] == player) or (the_board[6] == the_board[7] == the_board[8] == player) or (the_board[0] == the_board[4] == the_board[8] == player) or (the_board[2] == the_board[4] == the_board[6] == player):
+    if ((the_board[0] == the_board[1] == the_board[2] == player) 
+    or (the_board[3] == the_board[4] == the_board[5] == player) 
+    or (the_board[6] == the_board[7] == the_board[8] == player) 
+    or (the_board[0] == the_board[4] == the_board[8] == player) 
+    or (the_board[2] == the_board[4] == the_board[6] == player)
+    or (the_board[0] == the_board[3] == the_board[6] == player)
+    or (the_board[1] == the_board[4] == the_board[7] == player)
+    or (the_board[2] == the_board[5] == the_board[8] == player)):
         print('The winner is '+player)
         game_on = False
     elif ' ' not in the_board:
