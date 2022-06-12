@@ -82,11 +82,10 @@ def compare_cards(player1_in_play,player2_in_play):
     '''Accepts the cards in play and returns which player wins and list of cards won'''
     cards_to_win = [player1_in_play,player2_in_play]
     def war():
-        '''Adds 3 cards to cards_to_win, selects a war card and calls compare_cards with new cards'''
-        
+        '''Each player adds 3 cards to cards_to_win, selects a war card and calls compare_cards with new cards'''
+       
         cards_to_win.extend([player1.play_a_card(),player1.play_a_card(),player1.play_a_card(),
                             player2.play_a_card(),player2.play_a_card(),player2.play_a_card()])
-        '''adds 3 facedown cards to the cards_to_win'''
         print(f'there are now {len(cards_to_win)} cards in the pot')
         war_card1 = player1.play_a_card() 
         war_card2 = player2.play_a_card()
@@ -96,17 +95,37 @@ def compare_cards(player1_in_play,player2_in_play):
         '''if statements resolve the war'''
         if war_card1.value == war_card2.value:
             print('Another war!')
-            another_war_return = war()
-            return another_war_return
+            global game_on
+            if len(player1.cards) < 4:
+                print(f'{player1.name} is out of cards and cannot complete the war. {player2.name} wins on some BS this coder never heard of!')
+                game_on = False
+                return cards_to_win, player2.name
+            elif len(player2.cards) < 4:
+                print(f'{player1.name} is out of cards and cannot complete the war. {player2.name} wins on some BS this coder never heard of!')
+                game_on = False
+                return cards_to_win, player1.name
+            else:
+                another_war_return = war()
+                return another_war_return
         elif war_card1.value > war_card2.value:
             return cards_to_win, player1.name
         elif war_card1.value < war_card2.value:
             return cards_to_win, player2.name
     '''if statements below decide which player wins the cards to win and returns them'''
     if player1_in_play.value == player2_in_play.value:
-        print('Its a war!')
-        war_return = war()
-        return war_return
+        print('Its a war!') 
+        global game_on
+        if len(player1.cards) < 4:
+            print(f'{player1.name} is out of cards and cannot complete the war. {player2.name} wins on some BS this coder never heard of!')
+            game_on = False
+            return cards_to_win, player2.name
+        elif len(player2.cards) < 4:
+            print(f'{player1.name} is out of cards and cannot complete the war. {player2.name} wins on some BS this coder never heard of!')
+            game_on = False
+            return cards_to_win, player1.name
+        else:
+            war_return = war()
+            return war_return
     elif player1_in_play.value > player2_in_play.value:
         return cards_to_win, player1.name
     elif player1_in_play.value < player2_in_play.value:
@@ -129,8 +148,8 @@ p2_cards = []
 while start_deck.all_cards:
     p1_cards.append(start_deck.deal_one())
     p2_cards.append(start_deck.deal_one())
-# p1_cards = [Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace')]
-# p2_cards = [Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Two')]
+# p1_cards = [Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace')]
+# p2_cards = [Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace'),Card('Spades','Ace')]
 print('\n'*50)
 player1.take_cards(p1_cards)
 player2.take_cards(p2_cards)
@@ -149,4 +168,6 @@ while game_on == True:
         player2.take_cards(spoils_to_the_victor[0])
     print(f'{spoils_to_the_victor[1]} takes the cards')
     print(player1,' and ', player2)
+    if game_on == False:
+        break
     win_check()
